@@ -8,7 +8,7 @@ all: $(OBJ)
 main.o: main.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-htabl.o: htable.c
+htable.o: htable.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 node.o: node.c

@@ -1,6 +1,9 @@
 #ifndef TQUEUE_H
 #define TQUEUE_H
 
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "tweet.h"
 
 typedef struct tnode
@@ -9,13 +12,19 @@ typedef struct tnode
     Tweet* t;
 }Tnode;
 
+Tnode *tnode_init();
+void tnode_destroy(Tnode*);
+
+
 typedef struct tqueue
 {
     Tnode *head;
     Tnode *tail;
+    int size;
 }Tqueue;
 
-void tqueue_add(Tweet*);
-
+Tqueue* tqueue_init();
+void tqueue_add(Tqueue*,Tweet*);
+void tqueue_destroy(Tqueue*);
 
 #endif

@@ -6,6 +6,7 @@
 typedef struct user
 {
     char username[USERNAME_LIMIT];
+    char password[256]
     struct user* following[256];
 }User;
 
