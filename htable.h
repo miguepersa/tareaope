@@ -14,6 +14,7 @@ typedef struct htable
 
 Htable *htable_init();
 void htable_add(Htable*, User*);
+User *htable_get_user(Htable*, char*);
 void htable_destroy(Htable*);
 
 int hash(char*);
