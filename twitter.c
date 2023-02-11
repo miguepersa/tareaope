@@ -39,9 +39,13 @@ void twitter_init(Twitter *t)
             }
             
             
-        } else if (strcmp(action, "signup") == 0);
+        } else if (strcmp(action, "signup") == 0)
         {
             twitter_signup(t);
+        } else if (strcmp(action, "leave") == 0)
+        {
+            run = 0;
+            twitter_destroy(t);
         }
         
     }while (run);
@@ -61,4 +65,24 @@ int twitter_login(Twitter *t, char* username, char* password)
     }
 
     return 0;
+}
+
+void twitter_feed(Twitter* t)
+{
+    
+}
+
+void twitter_signup(Twitter* t)
+{
+    User *u = user_init();
+    char buff[256];
+
+    printf("username: ");
+    scanf("%s", u->username);
+    printf("password: ");
+    scanf("%s", buff);
+
+    u->password = hash(buff);
+
+    htable_add(t->usuarios, u);
 }

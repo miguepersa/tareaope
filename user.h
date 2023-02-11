@@ -7,7 +7,7 @@
 typedef struct user
 {
     char username[USERNAME_LIMIT];
-    char password[256];
+    int password;
     struct user* following[256];
     Tqueue *tweets;
 }User;
