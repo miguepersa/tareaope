@@ -69,6 +69,29 @@ int twitter_login(Twitter *t, char* username, char* password)
 
 void twitter_feed(Twitter* t)
 {
+    char input[8];
+
+    tqueue_print(t->tweets, t->loggedUser);
+
+    printf("WHAT'S HAPPENING?\n");
+    scanf("%s", input);
+
+    if (input[0] == '+' && strlen(input) == 1)
+    {
+        Tweet * tw = tweet_init();
+        tw->u = t->loggedUser;
+        printf("Input the tweet (max 280 chars): ");
+        scanf("%s", tw->contenido);
+        tw->contenido[280] = '\0';
+
+
+    } else if (input[0] == '@' && strlen(input) == 1)
+    {
+
+    } else if (strcmp(input, "logout") == 0)
+    {
+
+    }
     
 }
 

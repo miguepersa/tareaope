@@ -25,6 +25,7 @@ typedef struct tqueue
 
 Tqueue* tqueue_init();
 void tqueue_add(Tqueue*,Tweet*);
+void tqueue_print(Tqueue*, User*);
 void tqueue_destroy(Tqueue*);
 
 #endif

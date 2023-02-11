@@ -14,5 +14,6 @@ typedef struct tweet
     char time[32];
 }Tweet;
 
+Tweet *tweet_init();
 
 #endif

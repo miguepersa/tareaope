@@ -8,7 +8,7 @@ User* user_init()
         printf("User: malloc error\n");
         return NULL;
     }
-
+    u->followed = 0;
     return u;
 }
 
