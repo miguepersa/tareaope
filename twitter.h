@@ -9,13 +9,13 @@
 
 typedef struct twitter
 {
-    Htable usuarios;
-    User* u;
+    Htable *usuarios;
+    User* loggedUser;
     Tqueue *tweets;
 }Twitter;
 
 void twitter_init(Twitter*);
-int twitter_login(char*, char*, User*);
+int twitter_login(Twitter*, char*, char*);
 void twitter_feed(Twitter*);
 void twitter_signup(Twitter*);
 
