@@ -11,9 +11,13 @@ typedef struct tweet
 {
     User* u;
     char contenido[MAX_TWEET];
-    char time[32];
+    int hour;
+    int minute;
+    int day;
+    int month;
 }Tweet;
 
 Tweet *tweet_init();
+void tweet_print(Tweet*);
 
 #endif

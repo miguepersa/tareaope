@@ -80,6 +80,18 @@ void twitter_feed(Twitter* t)
     {
         Tweet * tw = tweet_init();
         tw->u = t->loggedUser;
+
+        time_t inittime;
+        struct tm *info;
+        time( &inittime );
+        info = localtime( &inittime );
+
+        tw->day = info->tm_mday;
+        tw->month = info->tm_mon;
+        tw->hour = info->tm_hour;
+        tw->minute = info->tm_min;
+
+
         printf("Input the tweet (max 280 chars): ");
         scanf("%s", tw->contenido);
         tw->contenido[280] = '\0';
@@ -87,6 +99,19 @@ void twitter_feed(Twitter* t)
 
     } else if (input[0] == '@' && strlen(input) == 1)
     {
+        char username[USERNAME_LIMIT];
+        printf("Give me an username: ");
+        scanf("%s", username);
+
+        User * user = htable_get_user(t->usuarios, username);
+        if (user == NULL){
+            printf("There's no user with that name\n");
+
+        }else{
+            tqueue_print(user->tweets)
+
+        }
+        
 
     } else if (strcmp(input, "logout") == 0)
     {

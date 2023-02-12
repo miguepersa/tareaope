@@ -21,7 +21,8 @@ void tnode_destroy(Tnode* n)
 
 Tqueue* tqueue_init()
 {
-    Tqueue* q = tnode_init();
+    Tqueue* q = (Tqueue*) malloc(sizeof(Tqueue));
+    
     if (q == NULL)
     {
         printf("Tqueue: Malloc Error\n");
@@ -33,16 +34,20 @@ Tqueue* tqueue_init()
     return q;
 }
 
-void tqueue_add(Tqueue* q, Tweet* t)
+void tqueue_add(Tqueue* queue, Tweet* tweet)
 {
-    Tnode *aux = (Tnode*) malloc(sizeof(Tnode));
-    aux->t = t;
-    aux->next = q->head;
-    q->head = aux;
+    Tnode *newnode = (Tnode*) malloc(sizeof(Tnode));
+    newnode->t = tweet;
+
     if (q->size == 0)
-    {
-        q->tail = aux;
+    { 
+        q->head = newnode;
+        q->tail = newnode;
+    }else{
+        q->tail->next = newnode;
+        q->tail = newnode;
     }
+
     q->size++;
     
 }
@@ -58,4 +63,14 @@ void tqueue_destroy(Tqueue* q)
         q->size--;
     }
     free(q);
+}
+
+void tqueue_print(Tqueue* q)
+{
+    Tnode* current = q->head;
+    while(current != NULL){
+        tweet_print(current->t);
+        printf("\n");
+        current = current->next;
+    }
 }

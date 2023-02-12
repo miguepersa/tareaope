@@ -24,6 +24,7 @@ void htable_add(Htable *t, User *u)
     }
     else
     {
+        //Revisar
         Node *aux = t->tabla[pos];
         while (aux->next != NULL)
         {
@@ -81,6 +82,8 @@ void htable_destroy(Htable *t)
     free(t);
     
 }
+
+//Hash
 
 int hash(char *s)
 {
