@@ -2,74 +2,74 @@
 
 Tnode *tnode_init()
 {
-    Tnode* n = (Tnode*) malloc(sizeof(Tnode));
-    if (n == NULL)
+    Tnode* tnode = (Tnode*) malloc(sizeof(Tnode));
+    if (tnode == NULL)
     {
         printf("Tnode: Malloc error\n");
         return NULL;
     }
-    n->next = NULL;
-    n->t = NULL;
-    return n;
+    tnode->next = NULL;
+    tnode->t = NULL;
+    return tnode;
 }
 
-void tnode_dest  roy(Tnode* n)
+void tnode_destroy(Tnode* tnode)
 {
-    free(n->t);
-    free(n);
+    free(tnode->tweet);
+    free(tnode);
 }
 
 Tqueue* tqueue_init()
 {
-    Tqueue* q = (Tqueue*) malloc(sizeof(Tqueue));
+    Tqueue* queue = (Tqueue*) malloc(sizeof(Tqueue));
     
-    if (q == NULL)
+    if (queue == NULL)
     {
         printf("Tqueue: Malloc Error\n");
         return NULL;
     }
-    q->size = 0;
-    q->head = NULL;
-    q->tail = NULL;
-    return q;
+    queue->size = 0;
+    queue->head = NULL;
+    queue->tail = NULL;
+    return queue;
 }
 
 void tqueue_add(Tqueue* queue, Tweet* tweet)
 {
-    Tnode *newnode = (Tnode*) malloc(sizeof(Tnode));
-    newnode->t = tweet;
+    Tnode *newNode = (Tnode*) malloc(sizeof(Tnode));
+    newNode->tweet = tweet;
 
-    if (q->size == 0)
+    if (queue->size == 0)
     { 
-        q->head = newnode;
-        q->tail = newnode;
+        queue->head = newNode;
+        queue->tail = newNode;
     }else{
-        q->tail->next = newnode;
-        q->tail = newnode;
+        queue->tail->next = newNode;
+        queue->tail = newNode;
     }
 
-    q->size++;
+    queue->size++;
     
 }
 
-void tqueue_destroy(Tqueue* q)
+void tqueue_destroy(Tqueue* queue)
 {
     Tnode* aux;
-    while (q->size > 0)
+    while (queue->size > 0)
     {
-        aux = q->head;
-        q->head = q->head->next;
+        aux = queue->head;
+        queue->head = queue->head->next;
         tnode_destroy(aux);
-        q->size--;
+        queue->size--;
     }
-    free(q);
+    free(queue);
 }
 
-void tqueue_print(Tqueue* q)
+void tqueue_print(Tqueue* queue)
 {
-    Tnode* current = q->head;
+    Tnode* current = queue->head;
     while(current != NULL){
-        tweet_print(current->t);
+        tweet_print(current->tweet);
         printf("\n");
         current = current->next;
     }

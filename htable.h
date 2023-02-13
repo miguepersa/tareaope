@@ -7,7 +7,7 @@
 
 typedef struct htable
 {
-    Node* tabla[HTABLE_LIMIT];
+    Node* table[HTABLE_LIMIT];
     int size;
     
 }Htable;

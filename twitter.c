@@ -1,18 +1,18 @@
 #include "twitter.h"
 
-void twitter_init(Twitter *t)
+void twitter_init(Twitter *twitter)
 {
-    char username[USERNAME_LIMIT];
+    char userName[userName_LIMIT];
     char action[32];
     char password[256];
 
-    t->loggedUser = NULL;
+    twitter->loggedUser = NULL;
 
     int run = 1;
 
     do
     {
-        if (t->loggedUser != NULL)
+        if (twitter->loggedUser != NULL)
         {
             twitter_feed(t);
         }
@@ -24,11 +24,11 @@ void twitter_init(Twitter *t)
         {
             while (1)
             {
-                printf("USERNAME: ");
-                scanf("%s\n", username);
+                printf("userName: ");
+                scanf("%s\n", userName);
                 printf("PASSWORD: ");
                 scanf("%s\n", password);
-                if (twitter_login(t, username, password))
+                if (twitter_login(t, userName, password))
                 {
                     break;
                 }
@@ -52,14 +52,14 @@ void twitter_init(Twitter *t)
             
 }
 
-int twitter_login(Twitter *t, char* username, char* password)
+int twitter_login(Twitter *twitter, char* userName, char* password)
 {
-    User * u = htable_get_user(t->usuarios, username);
-    if (u != NULL)
+    User * currentUser = htable_get_user(t->users, userName);
+    if (currentUser != NULL)
     {
-        if (u->password == hash(password))
+        if (currentUser->password == hash(password))
         {
-            t->loggedUser = u;
+            twitter->loggedUser = currentUser;
             return 1;
         }
     }
@@ -67,11 +67,11 @@ int twitter_login(Twitter *t, char* username, char* password)
     return 0;
 }
 
-void twitter_feed(Twitter* t)
+void twitter_feed(Twitter* twitter)
 {
     char input[8];
 
-    twitter_print_timeline(t->loggedUser);
+    twitter_print_timeline(twitter->loggedUser);
     int follow = 0;
     User* toFollow = NULL;
 
@@ -82,32 +82,32 @@ void twitter_feed(Twitter* t)
 
         if (input[0] == '+' && strlen(input) == 1)
         {
-            Tweet * tw = tweet_init();
-            tw->u = t->loggedUser;
+            Tweet * tweet = tweet_init();
+            tweet->user = twitter->loggedUser;
 
             time_t inittime;
             struct tm *info;
             time( &inittime );
             info = localtime( &inittime );
 
-            tw->day = info->tm_mday;
-            tw->month = info->tm_mon;
-            tw->hour = info->tm_hour;
-            tw->minute = info->tm_min;
+            tweet->day = info->tm_mday;
+            tweet->month = info->tm_mon;
+            tweet->hour = info->tm_hour;
+            tweet->minute = info->tm_min;
 
 
             printf("Input the tweet (max 280 chars): ");
-            scanf("%s", tw->contenido);
-            tw->contenido[280] = '\0';
+            scanf("%s", tweet->content);
+            tweet->content[280] = '\0';
 
 
         } else if (input[0] == '@' && strlen(input) == 1)
         {
-            char username[USERNAME_LIMIT];
-            printf("Give me an username: ");
-            scanf("%s", username);
+            char userName[userName_LIMIT];
+            printf("Give me an userName: ");
+            scanf("%s", userName);
 
-            toFollow = htable_get_user(t->usuarios, username);
+            toFollow = htable_get_user(t->users, userName);
 
             if (toFollow == NULL){
                 printf("There's no user with that name\n");
@@ -120,17 +120,17 @@ void twitter_feed(Twitter* t)
             
         } else if (strcmp(input, "logout") == 0)
         {
-            t->loggedUser = NULL;
+            twitter->loggedUser = NULL;
             break;
         }else if(strcmp(input, "follow") == 0 && follow == 1){
-            while(t->loggedUser->following[i] != NULL && strcmp(t->loggedUser->following[i]->username , toFollow->username) == 1){
+            while(twitter->loggedUser->following[i] != NULL && strcmp(twitter->loggedUser->following[i]->userName , toFollow->userName) == 1){
                  i++;
             }
 
-            if(strcmp(t->loggedUser->following[i]->username , toFollow->username) == 0){
+            if(strcmp(twitter->loggedUser->following[i]->userName , toFollow->userName) == 0){
                 printf("You already follow this user\n");
-            }else if(t->loggedUser->following[i] == NULL){
-                user_add_following(t->loggedUser, toFollow );
+            }else if(twitter->loggedUser->following[i] == NULL){
+                user_add_following(twitter->loggedUser, toFollow );
             }
 
             follow = 0;
@@ -141,19 +141,19 @@ void twitter_feed(Twitter* t)
     
 }
 
-void twitter_signup(Twitter* t)
+void twitter_signup(Twitter* twitter)
 {
-    User *u = user_init();
+    User *user = user_init();
     char buff[256];
 
-    printf("username: ");
-    scanf("%s", u->username);
+    printf("userName: ");
+    scanf("%s", user->userName);
     printf("password: ");
     scanf("%s", buff);
 
-    u->password = hash(buff);
+    user->password = hash(buff);
 
-    htable_add(t->usuarios, u);
+    htable_add(twitter->users, user);
 }
 
 void twitter_print_timeline(User* user)

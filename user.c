@@ -2,27 +2,27 @@
 
 User* user_init()
 {
-    User *u = (User*) malloc(sizeof(User));
-    if (u == NULL)
+    User *user = (User*) malloc(sizeof(User));
+    if (user == NULL)
     {
         printf("User: malloc error\n");
         return NULL;
     }
-    u->followed = 0;
+    user->followed = 0;
     return u;
 }
 
-void user_add_tweet(User* u, Tweet* t)
+void user_add_tweet(User* user, Tweet* tweet)
 {
-    tqueue_add(u->tweets, t);
+    tqueue_add(user->tweets, tweet);
 }
 
-void user_destroy(User* u)
+void user_destroy(User* user)
 {
-    free(u);
+    free(user);
 }
 
-void user_add_following(User* user, User* usertofollow )
+void user_add_following(User* user, User* userToFollow )
 {
     int i = 0;
 
@@ -31,11 +31,11 @@ void user_add_following(User* user, User* usertofollow )
     }
     
     if(user->following[i] == NULL){
-        user->following[i] =usertofollow;
+        user->following[i] =userToFollow;
 
     }else if (i == 257)
     {
-        printf("Maxima capacidad alcanzada\n");
+        printf("Reached max capacity\n");
 
     }
     

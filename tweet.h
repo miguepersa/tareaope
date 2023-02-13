@@ -9,8 +9,8 @@
 
 typedef struct tweet
 {
-    User* u;
-    char contenido[MAX_TWEET];
+    User* user;
+    char content[MAX_TWEET];
     int hour;
     int minute;
     int day;

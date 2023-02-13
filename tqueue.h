@@ -9,7 +9,7 @@
 typedef struct tnode
 {
     struct tnode* next;
-    Tweet* t;
+    Tweet* tweet;
 }Tnode;
 
 Tnode *tnode_init();

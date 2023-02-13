@@ -2,21 +2,21 @@
 
 Node *node_init()
 {
-    Node *n = (Node*) malloc(sizeof(Node));
-    if (n == NULL)
+    Node *node = (Node*) malloc(sizeof(Node));
+    if (node == NULL)
     {
         printf("Node: Malloc error\n");
         return NULL;
     }
 
-    n->next = NULL;
-    n->u = NULL;
-    return n;
+    node->next = NULL;
+    node->user = NULL;
+    return node;
 
 }
 
-void node_destroy(Node* n)
+void node_destroy(Node* node)
 {
-    user_destroy(n->u);
-    free(n);
+    user_destroy(node->user);
+    free(node);
 }

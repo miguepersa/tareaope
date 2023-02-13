@@ -9,7 +9,7 @@
 typedef struct node
 {
     struct node* next;
-    User* u;
+    User* user;
 }Node;
 
 Node *node_init();

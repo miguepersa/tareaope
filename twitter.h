@@ -9,7 +9,7 @@
 
 typedef struct twitter
 {
-    Htable *usuarios;
+    Htable *users;
     User* loggedUser;
     Tqueue *tweets;
 }Twitter;

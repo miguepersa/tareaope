@@ -2,7 +2,7 @@
 
 int main(int argc, char const *argv[])
 {
-    Twitter t;
-    twitter_init(&t);
+    Twitter tweet;
+    twitter_init(&tweet);
     return 0;
 }

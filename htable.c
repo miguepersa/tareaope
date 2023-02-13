@@ -2,84 +2,82 @@
 
 Htable *htable_init()
 {
-    Htable *t = (Htable *)malloc(sizeof(Htable));
-    if (t == NULL)
+    Htable *newTable = (Htable *)malloc(sizeof(Htable));
+    if (newTable == NULL)
     {
         printf("Htable: Malloc error");
         return NULL;
     }
-    t->size = 0;
-    return t;
+    newTable->size = 0;
+    return newTable;
 }
 
-void htable_add(Htable *t, User *u)
+void htable_add(Htable *currentTable, User *user)
 {
-    int pos = hash(u->username);
-    Node *n = node_init();
-    n->u = u;
+    int pos = hash(user->userName);
+    Node *node = node_init();
+    node->user = user;
 
-    if (t->tabla[pos] == NULL)
+    if (currentTable->table[pos] == NULL)
     {
-        t->tabla[pos] = n;
+        currentTable->table[pos] = node;
     }
     else
     {
-        //Revisar
-        Node *aux = t->tabla[pos];
+        Node *aux = currentTable->table[pos];
         while (aux->next != NULL)
         {
             aux = aux->next;
         }
-        aux->next = n;
+        aux->next = node;
     }
 
-    t->size++;
+    currentTable->size++;
 }
 
-User *htable_get_user(Htable *t, char *nombre)
+User *htable_get_user(Htable *currentTable, char *name)
 {
     
-    int i = hash(nombre);
+    int i = hash(name);
 
-    Node *aux = t->tabla[i];
+    Node *aux = currentTable->table[i];
 
     if (aux == NULL)
     {
         return NULL;
     }
 
-    while (strcmp(nombre, aux->u->username) != 0 && aux->next != NULL)
+    while (strcmp(name, aux->user->userName) != 0 && aux->next != NULL)
     {
         aux = aux->next;
     }
 
-    if (strcmp(nombre, aux->u->username) == 0)
+    if (strcmp(name, aux->user->userName) == 0)
     {
-        return aux->u;
+        return aux->user;
     } else {
         return NULL;
     }
     
 }
 
-void htable_destroy(Htable *t)
+void htable_destroy(Htable *currentTable)
 {
-    int i;
     Node *aux;
 
-    for (i = 0; i < HTABLE_LIMIT; i++)
+    for (int i = 0; i < HTABLE_LIMIT; i++)
     {
-        aux = t->tabla[i];
+        aux = currentTable->table[i];
         while (aux != NULL)
         {
             node_destroy(aux);
-            aux = t->tabla[i];
-            t->tabla[i] = t->tabla[i]->next;
+            aux = currentTable->table[i];
+            currentTable->table[i] = currentTable->table[i]->next;
         }
 
     }
 
-    free(t);
+    free(currentTable);
     
 }
 
@@ -89,14 +87,14 @@ int hash(char *s)
 {
     int i;
     int n = strlen(s);
-    int h = 0;
+    int hashedValue = 0;
 
     for (i = 0; i < n; i++)
     {
-        h = h + (int)s[i];
+        hashedValue = hashedValue + (int)s[i];
     }
 
-    h = h % HTABLE_LIMIT;
+    hashedValue = hashedValue % HTABLE_LIMIT;
 
-    return h;
+    return hashedValue;
 }
