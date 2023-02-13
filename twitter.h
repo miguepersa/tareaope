@@ -19,5 +19,5 @@ int twitter_login(Twitter*, char*, char*);
 void twitter_feed(Twitter*);
 void twitter_signup(Twitter*);
 void twitter_destroy(Twitter*);
-
+void twitter_print_timeline(User*);
 #endif

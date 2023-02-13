@@ -16,5 +16,6 @@ typedef struct user
 User *user_init();
 void user_add_tweet(User*, Tweet*);
 void user_destroy(User*);
+void user_add_following(User*, User*); //Primer usuario: usuario que quiere seguir a otro. Segundo usuario: usuario al que se quiere seguir.
 
 #endif

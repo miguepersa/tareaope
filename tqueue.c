@@ -13,7 +13,7 @@ Tnode *tnode_init()
     return n;
 }
 
-void tnode_destroy(Tnode* n)
+void tnode_dest  roy(Tnode* n)
 {
     free(n->t);
     free(n);

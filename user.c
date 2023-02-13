@@ -21,3 +21,23 @@ void user_destroy(User* u)
 {
     free(u);
 }
+
+void user_add_following(User* user, User* usertofollow )
+{
+    int i = 0;
+
+    while(user->following[i] != NULL && i < 257){
+        i++;
+    }
+    
+    if(user->following[i] == NULL){
+        user->following[i] =usertofollow;
+
+    }else if (i == 257)
+    {
+        printf("Maxima capacidad alcanzada\n");
+
+    }
+    
+
+}
