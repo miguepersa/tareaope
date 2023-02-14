@@ -36,7 +36,7 @@ Tqueue* tqueue_init()
 
 void tqueue_add(Tqueue* queue, Tweet* tweet)
 {
-    Tnode *newNode = (Tnode*) malloc(sizeof(Tnode));
+    Tnode *newNode = tnode_init();
     newNode->tweet = tweet;
 
     if (queue->size == 0)

@@ -7,9 +7,10 @@
 
 #include "settings.h"
 
+typedef struct user User;
+
 typedef struct tweet
 {
-    /*User* user;*/
     char content[MAX_TWEET];
     int hour;
     int minute;

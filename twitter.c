@@ -28,9 +28,9 @@ void twitter_init(Twitter *twitter)
             while (1)
             {
                 printf("userName: ");
-                scanf("%s\n", userName);
+                scanf("%s", userName);
                 printf("PASSWORD: ");
-                scanf("%s\n", password);
+                scanf("%s", password);
                 if (twitter_login(twitter, userName, password))
                 {
                     break;
@@ -74,7 +74,7 @@ void twitter_feed(Twitter* twitter)
 {
     char input[8];
 
-    twitter_print_timeline(twitter->loggedUser);
+    /*twitter_print_timeline(twitter->loggedUser);*/
     int follow = 0;
     User* toFollow = NULL;
 
@@ -86,7 +86,6 @@ void twitter_feed(Twitter* twitter)
         if (input[0] == '+' && strlen(input) == 1)
         {
             Tweet * tweet = tweet_init();
-            /*tweet->user = twitter->loggedUser;*/
 
             time_t inittime;
             struct tm *info;
@@ -102,6 +101,7 @@ void twitter_feed(Twitter* twitter)
             printf("Input the tweet (max 280 chars): ");
             scanf("%s", tweet->content);
             tweet->content[280] = '\0';
+            tqueue_add(twitter->loggedUser->tweets, tweet);
 
 
         } else if (input[0] == '@' && strlen(input) == 1)
@@ -121,22 +121,21 @@ void twitter_feed(Twitter* twitter)
 
             }
             
+            
+
         } else if (strcmp(input, "logout") == 0)
         {
             twitter->loggedUser = NULL;
             break;
         }else if(strcmp(input, "follow") == 0 && follow == 1){
-            int i;
-            while(twitter->loggedUser->following[i] != NULL && strcmp(twitter->loggedUser->following[i]->userName , toFollow->userName) == 1){
-                 i++;
+            if (htable_get_user(twitter->loggedUser->following, toFollow->userName) != NULL)
+            {
+                printf("Already following user @%s\n", toFollow->userName);
+            } else
+            {
+                htable_add(twitter->loggedUser->following, toFollow);
+                twitter->loggedUser->followed++;
             }
-
-            if(strcmp(twitter->loggedUser->following[i]->userName , toFollow->userName) == 0){
-                printf("You already follow this user\n");
-            }else if(twitter->loggedUser->following[i] == NULL){
-                user_add_following(twitter->loggedUser, toFollow );
-            }
-
             follow = 0;
 
         }
@@ -210,5 +209,4 @@ void twitter_print_timeline(User* user)
 void twitter_destroy(Twitter* twitter)
 {
     htable_destroy(twitter->users);
-    tqueue_destroy(twitter->tweets);
 }
