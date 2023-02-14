@@ -2,6 +2,9 @@
 
 void twitter_init(Twitter *twitter)
 {
+    twitter->users = htable_init();
+    twitter->tweets = tqueue_init();
+    twitter->loggedUser = NULL;
     char userName[USERNAME_LIMIT];
     char action[32];
     char password[256];
@@ -208,5 +211,4 @@ void twitter_destroy(Twitter* twitter)
 {
     htable_destroy(twitter->users);
     tqueue_destroy(twitter->tweets);
-    free(twitter);
 }

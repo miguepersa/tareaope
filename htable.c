@@ -2,6 +2,7 @@
 
 Htable *htable_init()
 {
+    int i;
     Htable *newTable = (Htable *)malloc(sizeof(Htable));
     if (newTable == NULL)
     {
@@ -9,6 +10,13 @@ Htable *htable_init()
         return NULL;
     }
     newTable->size = 0;
+
+    for (i = 0; i < HTABLE_LIMIT; i++)
+    {
+        newTable->table[i] = NULL;
+    }
+    
+
     return newTable;
 }
 
@@ -66,16 +74,15 @@ void htable_destroy(Htable *currentTable)
     Node *aux;
     int i; 
     
-    for (i = 0; i < HTABLE_LIMIT; i++)
+    for (i = 0; i < HTABLE_LIMIT && currentTable->size > 0; i++)
     {
-        aux = currentTable->table[i];
-        while (aux != NULL)
+        while (currentTable->table[i] != NULL)
         {
-            node_destroy(aux);
             aux = currentTable->table[i];
             currentTable->table[i] = currentTable->table[i]->next;
+            node_destroy(aux);
+            currentTable->size--;
         }
-
     }
 
     free(currentTable);
