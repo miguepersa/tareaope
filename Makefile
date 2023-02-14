@@ -25,3 +25,6 @@ twitter.o: twitter.c
 
 user.o: user.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -rf *.o twitter

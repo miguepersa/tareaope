@@ -15,10 +15,11 @@ typedef struct twitter
     Tqueue *tweets;
 }Twitter;
 
+void twitter_init(Twitter*);
 int twitter_login(Twitter*, char*, char*);
 void twitter_feed(Twitter*);
 void twitter_signup(Twitter*);
-void twitter_destroy(Twitter*);
 void twitter_print_timeline(User*);
-void twitter_init(Twitter*);
+void twitter_destroy(Twitter*);
+
 #endif

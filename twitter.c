@@ -18,7 +18,7 @@ void twitter_init(Twitter *twitter)
         }
         printf("DON'T MISS WHAT'S HAPPENING! LOGIN, SIGNUP OR LEAVE\n");
 
-        scanf("%s\n", action);
+        scanf("%s", action);
 
         if (strcmp(action, "login") == 0)
         {
@@ -202,4 +202,11 @@ void twitter_print_timeline(User* user)
         }
     }
     tqueue_print(printQueue);
+}
+
+void twitter_destroy(Twitter* twitter)
+{
+    htable_destroy(twitter->users);
+    tqueue_destroy(twitter->tweets);
+    free(twitter);
 }
