@@ -3,13 +3,13 @@
 
 #include <stdio.h>
 #include <time.h>
+#include <stdlib.h>
 
 #include "settings.h"
-#include "user.h"
 
 typedef struct tweet
 {
-    User* user;
+    /*User* user;*/
     char content[MAX_TWEET];
     int hour;
     int minute;

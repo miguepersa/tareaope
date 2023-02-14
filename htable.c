@@ -64,8 +64,9 @@ User *htable_get_user(Htable *currentTable, char *name)
 void htable_destroy(Htable *currentTable)
 {
     Node *aux;
-
-    for (int i = 0; i < HTABLE_LIMIT; i++)
+    int i; 
+    
+    for (i = 0; i < HTABLE_LIMIT; i++)
     {
         aux = currentTable->table[i];
         while (aux != NULL)
@@ -81,7 +82,6 @@ void htable_destroy(Htable *currentTable)
     
 }
 
-//Hash
 
 int hash(char *s)
 {

@@ -6,7 +6,7 @@
 
 typedef struct user
 {
-    char userName[userName_LIMIT];
+    char userName[USERNAME_LIMIT];
     int password;
     int followed;
     struct user* following[256];
@@ -16,6 +16,8 @@ typedef struct user
 User *user_init();
 void user_add_tweet(User*, Tweet*);
 void user_destroy(User*);
-void user_add_following(User*, User*); //Primer usuario: usuario que quiere seguir a otro. Segundo usuario: usuario al que se quiere seguir.
+
+/*Primer usuario: usuario que quiere seguir a otro. Segundo usuario: usuario al que se quiere seguir.*/
+void user_add_following(User*, User*);
 
 #endif

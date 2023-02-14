@@ -9,7 +9,7 @@ User* user_init()
         return NULL;
     }
     user->followed = 0;
-    return u;
+    return user;
 }
 
 void user_add_tweet(User* user, Tweet* tweet)

@@ -1,11 +1,11 @@
-OBJ = main.o htable.o node.o tqueue.o tweet.o twitter.o user.o
+OBJ = main.o twitter.o htable.o tqueue.o user.o node.o tweet.o
 CFLAGS = -ansi -Wall -g
 CC = gcc
 
 all: $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o twitter
 
-main.o: main.c
+main.o: main.c twitter.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 htable.o: htable.c

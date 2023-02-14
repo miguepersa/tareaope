@@ -2,6 +2,7 @@
 #define HTABLE_H
 
 #include "node.h"
+#include "user.h"
 
 #include <string.h>
 

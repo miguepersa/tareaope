@@ -9,7 +9,7 @@ Tnode *tnode_init()
         return NULL;
     }
     tnode->next = NULL;
-    tnode->t = NULL;
+    tnode->tweet = NULL;
     return tnode;
 }
 

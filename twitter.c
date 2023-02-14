@@ -2,7 +2,7 @@
 
 void twitter_init(Twitter *twitter)
 {
-    char userName[userName_LIMIT];
+    char userName[USERNAME_LIMIT];
     char action[32];
     char password[256];
 
@@ -14,7 +14,7 @@ void twitter_init(Twitter *twitter)
     {
         if (twitter->loggedUser != NULL)
         {
-            twitter_feed(t);
+            twitter_feed(twitter);
         }
         printf("DON'T MISS WHAT'S HAPPENING! LOGIN, SIGNUP OR LEAVE\n");
 
@@ -28,7 +28,7 @@ void twitter_init(Twitter *twitter)
                 scanf("%s\n", userName);
                 printf("PASSWORD: ");
                 scanf("%s\n", password);
-                if (twitter_login(t, userName, password))
+                if (twitter_login(twitter, userName, password))
                 {
                     break;
                 }
@@ -41,11 +41,11 @@ void twitter_init(Twitter *twitter)
             
         } else if (strcmp(action, "signup") == 0)
         {
-            twitter_signup(t);
+            twitter_signup(twitter);
         } else if (strcmp(action, "leave") == 0)
         {
             run = 0;
-            twitter_destroy(t);
+            twitter_destroy(twitter);
         }
         
     }while (run);
@@ -54,7 +54,7 @@ void twitter_init(Twitter *twitter)
 
 int twitter_login(Twitter *twitter, char* userName, char* password)
 {
-    User * currentUser = htable_get_user(t->users, userName);
+    User * currentUser = htable_get_user(twitter->users, userName);
     if (currentUser != NULL)
     {
         if (currentUser->password == hash(password))
@@ -83,7 +83,7 @@ void twitter_feed(Twitter* twitter)
         if (input[0] == '+' && strlen(input) == 1)
         {
             Tweet * tweet = tweet_init();
-            tweet->user = twitter->loggedUser;
+            /*tweet->user = twitter->loggedUser;*/
 
             time_t inittime;
             struct tm *info;
@@ -103,11 +103,11 @@ void twitter_feed(Twitter* twitter)
 
         } else if (input[0] == '@' && strlen(input) == 1)
         {
-            char userName[userName_LIMIT];
+            char userName[USERNAME_LIMIT];
             printf("Give me an userName: ");
             scanf("%s", userName);
 
-            toFollow = htable_get_user(t->users, userName);
+            toFollow = htable_get_user(twitter->users, userName);
 
             if (toFollow == NULL){
                 printf("There's no user with that name\n");
@@ -123,6 +123,7 @@ void twitter_feed(Twitter* twitter)
             twitter->loggedUser = NULL;
             break;
         }else if(strcmp(input, "follow") == 0 && follow == 1){
+            int i;
             while(twitter->loggedUser->following[i] != NULL && strcmp(twitter->loggedUser->following[i]->userName , toFollow->userName) == 1){
                  i++;
             }
@@ -159,8 +160,9 @@ void twitter_signup(Twitter* twitter)
 void twitter_print_timeline(User* user)
 {
     Tqueue *printQueue = tqueue_init();
+    int i;
 
-    for(int i =0; i< sizeof(user->following)/sizeof(user->following[0]); i++){
+    for(i =0; i< sizeof(user->following)/sizeof(user->following[0]); i++){
         Tnode* currentFollowingTweet = user->following[i]->tweets->head;
         while(currentFollowingTweet != NULL){
             if(printQueue->size == 0){
@@ -179,11 +181,12 @@ void twitter_print_timeline(User* user)
                         queueNode = queueNode->next;
                         continue;
                     }
-                    Tweet* queueTweet = queueNode->t;
-                    if(queueTweet->month < currentFollowingTweet->t->month || (queueTweet->month > currentFollowingTweet->t->month && queueTweet->day < currentFollowingTweet->t->day) || 
-                        (queueTweet->month > currentFollowingTweet->t->month && queueTweet->day > currentFollowingTweet->t->day && queueTweet->hour < currentFollowingTweet->t->hour) ||
-                        (queueTweet->month > currentFollowingTweet->t->month && queueTweet->day > currentFollowingTweet->t->day && queueTweet->hour > currentFollowingTweet->t->hour && 
-                        queueTweet->minute < currentFollowingTweet->t->minute))
+                    Tweet* queueTweet = queueNode->tweet;
+                    if(queueTweet->month < currentFollowingTweet->tweet->month || (queueTweet->month > currentFollowingTweet->tweet->month && 
+                        queueTweet->day < currentFollowingTweet->tweet->day) || (queueTweet->month > currentFollowingTweet->tweet->month && 
+                        queueTweet->day > currentFollowingTweet->tweet->day && queueTweet->hour < currentFollowingTweet->tweet->hour) ||
+                        (queueTweet->month > currentFollowingTweet->tweet->month && queueTweet->day > currentFollowingTweet->tweet->day 
+                        && queueTweet->hour > currentFollowingTweet->tweet->hour && queueTweet->minute < currentFollowingTweet->tweet->minute))
                     {
                         if(oldQueueNode != NULL){
                             oldQueueNode->next = currentFollowingTweet;
