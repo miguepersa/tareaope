@@ -63,9 +63,9 @@ User *htable_get_user(Htable *currentTable, char *name)
     if (strcmp(name, aux->user->userName) == 0)
     {
         return aux->user;
-    } else {
-        return NULL;
     }
+    
+    return NULL;
     
 }
 

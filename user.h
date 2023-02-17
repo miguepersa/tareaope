@@ -5,9 +5,8 @@
 #include "tqueue.h"
 #include "htable.h"
 
-/*struct htable;*/
-
-
+#ifndef USER
+#define USER
 typedef struct user
 {
     char userName[USERNAME_LIMIT];
@@ -16,6 +15,7 @@ typedef struct user
     Htable *following;
     Tqueue *tweets;
 }User;
+#endif
 
 User *user_init();
 void user_add_tweet(User*, Tweet*);

@@ -22,6 +22,7 @@ void twitter_init(Twitter *twitter)
         printf("DON'T MISS WHAT'S HAPPENING! LOGIN, SIGNUP OR LEAVE\n");
 
         scanf("%s", action);
+        fflush(stdin);
 
         if (strcmp(action, "login") == 0)
         {
@@ -143,6 +144,9 @@ void twitter_feed(Twitter* twitter)
             follow = 0;
 
         }
+
+
+    fflush(stdin);
 
     }
     

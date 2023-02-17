@@ -3,11 +3,9 @@
 
 #include "node.h"
 #include "settings.h"
-/*#include "user.h"*/
+#include "tqueue.h"
 
 #include <string.h>
-
-typedef struct user User;
 
 typedef struct htable
 {
@@ -15,6 +13,19 @@ typedef struct htable
     int size;
     
 }Htable;
+
+#ifndef USER
+#define USER
+typedef struct user
+{
+    char userName[USERNAME_LIMIT];
+    int password;
+    int followed;
+    Htable *following;
+    Tqueue *tweets;
+}User;
+
+#endif
 
 Htable *htable_init();
 void htable_add(Htable*, User*);
