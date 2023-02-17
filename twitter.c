@@ -81,7 +81,6 @@ void twitter_feed(Twitter* twitter)
     while(1){
 
         printf("WHAT'S HAPPENING?\n");
-        printf("%d\n",follow);
         scanf("%s", input);
 
         if (input[0] == '+' && strlen(input) == 1)
