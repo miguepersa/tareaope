@@ -7,7 +7,6 @@
 
 #include "settings.h"
 
-typedef struct user User;
 
 typedef struct tweet
 {

@@ -3,6 +3,10 @@
 
 #include "tweet.h"
 #include "tqueue.h"
+#include "htable.h"
+
+/*struct htable;*/
+
 
 typedef struct user
 {

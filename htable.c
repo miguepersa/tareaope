@@ -25,7 +25,7 @@ void htable_add(Htable *currentTable, User *user)
     int pos = hash(user->userName);
     Node *node = node_init();
     node->user = user;
-
+    
     if (currentTable->table[pos] == NULL)
     {
         currentTable->table[pos] = node;

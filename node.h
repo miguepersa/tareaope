@@ -1,7 +1,7 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include "user.h"
+typedef struct user User;
 
 #include <stdio.h>
 #include <stdlib.h>

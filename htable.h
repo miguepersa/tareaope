@@ -2,9 +2,12 @@
 #define HTABLE_H
 
 #include "node.h"
-#include "user.h"
+#include "settings.h"
+/*#include "user.h"*/
 
 #include <string.h>
+
+typedef struct user User;
 
 typedef struct htable
 {

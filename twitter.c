@@ -74,13 +74,14 @@ void twitter_feed(Twitter* twitter)
 {
     char input[8];
 
-    /*twitter_print_timeline(twitter->loggedUser);*/
+    twitter_print_timeline(twitter->loggedUser);
     int follow = 0;
     User* toFollow = NULL;
 
     while(1){
 
         printf("WHAT'S HAPPENING?\n");
+        printf("%d\n",follow);
         scanf("%s", input);
 
         if (input[0] == '+' && strlen(input) == 1)
@@ -99,8 +100,10 @@ void twitter_feed(Twitter* twitter)
 
 
             printf("Input the tweet (max 280 chars): ");
-            scanf("%s", tweet->content);
+            fgets(tweet->content, MAX_TWEET, stdin);
             tweet->content[280] = '\0';
+            printf("%s", tweet->content);
+            scanf(" ");
             tqueue_add(twitter->loggedUser->tweets, tweet);
 
 
@@ -116,6 +119,7 @@ void twitter_feed(Twitter* twitter)
                 printf("There's no user with that name\n");
 
             }else{
+                printf("@%s\n", toFollow->userName);
                 tqueue_print(toFollow->tweets);
                 follow = 1;
 
@@ -135,6 +139,7 @@ void twitter_feed(Twitter* twitter)
             {
                 htable_add(twitter->loggedUser->following, toFollow);
                 twitter->loggedUser->followed++;
+                printf("Now you follow @%s!\n",toFollow->userName);
             }
             follow = 0;
 
@@ -164,8 +169,8 @@ void twitter_print_timeline(User* user)
     Tqueue *printQueue = tqueue_init();
     int i;
 
-    for(i =0; i< sizeof(user->following)/sizeof(user->following[0]); i++){
-        Tnode* currentFollowingTweet = user->following[i]->tweets->head;
+    for(i =0; i< user->following->size ; i++){
+        Tnode* currentFollowingTweet = user->following->table[i]->user->tweets->head;
         while(currentFollowingTweet != NULL){
             if(printQueue->size == 0){
                 printQueue->head = currentFollowingTweet;

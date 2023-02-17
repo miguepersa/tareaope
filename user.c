@@ -2,7 +2,6 @@
 
 User* user_init()
 {
-    int i;
     User *user = (User*) malloc(sizeof(User));
     if (user == NULL)
     {
@@ -11,12 +10,8 @@ User* user_init()
     }
     user->tweets = tqueue_init();
     user->followed = 0;
+    user->following = htable_init();
 
-    for (i = 0; i < 256; i++)
-    {
-        user->following[i] = NULL;
-    }
-    
 
     return user;
 }
@@ -34,20 +29,7 @@ void user_destroy(User* user)
 
 void user_add_following(User* user, User* userToFollow )
 {
-    int i = 0;
 
-    while(user->following[i] != NULL && i < 257){
-        i++;
-    }
+    htable_add(user->following, userToFollow);
     
-    if(user->following[i] == NULL){
-        user->following[i] =userToFollow;
-
-    }else if (i == 257)
-    {
-        printf("Reached max capacity\n");
-
-    }
-    
-
 }
