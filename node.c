@@ -17,6 +17,6 @@ Node *node_init()
 
 void node_destroy(Node* node)
 {
-    /*user_destroy(node->user); POR AHORA*/
+    user_destroy(node->user);
     free(node);
 }

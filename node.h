@@ -3,6 +3,8 @@
 
 typedef struct user User;
 
+void user_destroy(User*);
+
 #include <stdio.h>
 #include <stdlib.h>
 

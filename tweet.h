@@ -6,11 +6,13 @@
 #include <stdlib.h>
 
 #include "settings.h"
+#include "htable.h"
 
 
 typedef struct tweet
 {
     char content[MAX_TWEET];
+    User *u;
     int hour;
     int minute;
     int day;

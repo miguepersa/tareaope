@@ -3,7 +3,8 @@
 
 #include "node.h"
 #include "settings.h"
-#include "tqueue.h"
+
+typedef struct tqueue Tqueue;
 
 #include <string.h>
 

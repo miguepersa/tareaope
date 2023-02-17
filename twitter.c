@@ -75,7 +75,7 @@ void twitter_feed(Twitter* twitter)
 {
     char input[8];
 
-    twitter_print_timeline(twitter->loggedUser);
+    twitter_print_timeline(twitter, twitter->loggedUser);
     int follow = 0;
     User* toFollow = NULL;
 
@@ -86,6 +86,7 @@ void twitter_feed(Twitter* twitter)
 
         if (input[0] == '+' && strlen(input) == 1)
         {
+            clean_stdin();
             Tweet * tweet = tweet_init();
 
             time_t inittime;
@@ -97,18 +98,18 @@ void twitter_feed(Twitter* twitter)
             tweet->month = info->tm_mon;
             tweet->hour = info->tm_hour;
             tweet->minute = info->tm_min;
-
+            tweet->u = twitter->loggedUser;
 
             printf("Input the tweet (max 280 chars): ");
-            fgets(tweet->content, MAX_TWEET, stdin);
-            tweet->content[280] = '\0';
-            printf("%s", tweet->content);
-            scanf(" ");
+            scanf("%[^\n]", tweet->content);
+            
             tqueue_add(twitter->loggedUser->tweets, tweet);
+            tqueue_add(twitter->tweets,tweet);
 
 
         } else if (input[0] == '@' && strlen(input) == 1)
         {
+            clean_stdin();
             char userName[USERNAME_LIMIT];
             printf("Give me an userName: ");
             scanf("%s", userName);
@@ -129,9 +130,11 @@ void twitter_feed(Twitter* twitter)
 
         } else if (strcmp(input, "logout") == 0)
         {
+            clean_stdin();
             twitter->loggedUser = NULL;
             break;
         }else if(strcmp(input, "follow") == 0 && follow == 1){
+            clean_stdin();
             if (htable_get_user(twitter->loggedUser->following, toFollow->userName) != NULL)
             {
                 printf("Already following user @%s\n", toFollow->userName);
@@ -146,7 +149,7 @@ void twitter_feed(Twitter* twitter)
         }
 
 
-    fflush(stdin);
+    clean_stdin();
 
     }
     
@@ -167,54 +170,31 @@ void twitter_signup(Twitter* twitter)
     htable_add(twitter->users, user);
 }
 
-void twitter_print_timeline(User* user)
+void twitter_print_timeline(Twitter *t, User* user)
 {
-    Tqueue *printQueue = tqueue_init();
-    int i;
+    Tnode *aux = t->tweets->head;
 
-    for(i =0; i< user->following->size ; i++){
-        Tnode* currentFollowingTweet = user->following->table[i]->user->tweets->head;
-        while(currentFollowingTweet != NULL){
-            if(printQueue->size == 0){
-                printQueue->head = currentFollowingTweet;
-                printQueue->tail = currentFollowingTweet;
-                printQueue->size++;
-            }
-            else{
-                Tnode* queueNode = printQueue->head;
-                Tnode* oldQueueNode= NULL;
-                while(queueNode!= NULL){
-                    if(queueNode-> next == NULL)
-                    {
-                        printQueue->tail->next = queueNode;
-                        printQueue->tail = queueNode;
-                        queueNode = queueNode->next;
-                        continue;
-                    }
-                    Tweet* queueTweet = queueNode->tweet;
-                    if(queueTweet->month < currentFollowingTweet->tweet->month || (queueTweet->month > currentFollowingTweet->tweet->month && 
-                        queueTweet->day < currentFollowingTweet->tweet->day) || (queueTweet->month > currentFollowingTweet->tweet->month && 
-                        queueTweet->day > currentFollowingTweet->tweet->day && queueTweet->hour < currentFollowingTweet->tweet->hour) ||
-                        (queueTweet->month > currentFollowingTweet->tweet->month && queueTweet->day > currentFollowingTweet->tweet->day 
-                        && queueTweet->hour > currentFollowingTweet->tweet->hour && queueTweet->minute < currentFollowingTweet->tweet->minute))
-                    {
-                        if(oldQueueNode != NULL){
-                            oldQueueNode->next = currentFollowingTweet;
-                        }
-                        currentFollowingTweet->next = queueNode;
-                    }
-                    oldQueueNode = queueNode;
-                    queueNode = queueNode->next;
-                }
-            }
-            currentFollowingTweet = currentFollowingTweet->next;
-            
+    while (aux != NULL)
+    {
+        if (htable_get_user(user->following, aux->tweet->u->userName))
+        {
+            tweet_print(aux->tweet);
         }
+        aux = aux->next;
     }
-    tqueue_print(printQueue);
+    
 }
 
 void twitter_destroy(Twitter* twitter)
 {
     htable_destroy(twitter->users);
+    tqueue_destroy(twitter->tweets);
+}
+
+void clean_stdin(void)
+{
+    int c;
+    do {
+        c = getchar();
+    } while (c != '\n' && c != EOF);
 }

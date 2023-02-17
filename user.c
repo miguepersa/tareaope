@@ -23,7 +23,14 @@ void user_add_tweet(User* user, Tweet* tweet)
 
 void user_destroy(User* user)
 {
-    tqueue_destroy(user->tweets);
+    while (user->tweets->head != NULL)
+    {
+        Tnode* aux = user->tweets->head;
+        user->tweets->head = user->tweets->head->next;
+        free(aux);
+    }
+    free(user->tweets);
+    free(user->following);
     free(user);
 }
 
