@@ -1,4 +1,15 @@
+/*Archivo con las funciones de la estructura HTable
+Contenido:
+    htable_init: función de inicializacion de tabla de hash.
+    htable_add: función para agregar usuario en la tabla de hash.
+    htable_get_user: función que retorna al usuario buscado.
+    htable_destroy: función que destruye una tabla de hash, liberando espacio.
+    hash: función de hash que se aplicara a la contraseña y la tabla de usuarios.*/
+
 #include "htable.h"
+
+/*htable_init: esta funcion reserva un espacio de memoria de tamano respectivo, para crear la tabla de hash correspondiente. Luego, se encarga de que
+cada bucket de la tabla de hash sea NULL, para inicializar cada uno.*/
 
 Htable *htable_init()
 {
@@ -19,6 +30,11 @@ Htable *htable_init()
 
     return newTable;
 }
+
+/*htable_add: a través de una clave de hash que obtendremos a partir del atributo nombre del usuario dado, otorgaremos una posición/bucket para el usuario mencionado.
+Cada bucket actúa como una lista enlazada.
+Si la posición correspondiente esta vacía, lo colocaremos en tal posición. En caso contrario, el usuario en cuestión será asignado como el siguiente al elemento ya ubicado
+en el bucket, colocándolo al final de esa lista.*/
 
 void htable_add(Htable *currentTable, User *user)
 {
@@ -42,6 +58,9 @@ void htable_add(Htable *currentTable, User *user)
 
     currentTable->size++;
 }
+
+/*htable_get_user: a traves de la clave de hash unica creada por el nombre del usuario que se desea obtener, podemos el bucket correspondiente a tal clave.
+Si se obtiene NULL, significa que no existe tal usuario. En caso contrario, procedemos a comparar los nombres de los elementos del bucket, recorriendo a sus sucesores*/
 
 User *htable_get_user(Htable *currentTable, char *name)
 {
@@ -69,6 +88,8 @@ User *htable_get_user(Htable *currentTable, char *name)
     
 }
 
+/*htable_destroy: recorre la tabla, lista por lista y luego nodo por nodo, llamando a node_destroy. Finalment, libera el espacio utilizado anteriormente por la tabla de hash */
+
 void htable_destroy(Htable *currentTable)
 {
     Node *aux;
@@ -89,6 +110,8 @@ void htable_destroy(Htable *currentTable)
     
 }
 
+/*hash: toma el valor ASCII de cada caracter de la contraseña introducida, sumandolos. Finalmente, se obtiene el modulo de la clave con respecto al
+numero de buckets deseados y se obtiene la clave de hash*/
 
 int hash(char *s)
 {

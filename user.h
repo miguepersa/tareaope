@@ -1,3 +1,5 @@
+/*Archivo que contiene las definiciones de la estructura User*/
+
 #ifndef USER_H
 #define USER_H
 

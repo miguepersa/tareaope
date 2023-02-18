@@ -1,3 +1,5 @@
+/*Archivo con las definiciones de la estructura Tweet*/
+
 #ifndef TWEET_H
 #define TWEET_H
 

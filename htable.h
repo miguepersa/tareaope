@@ -1,3 +1,5 @@
+/*Archivo con las definiciones de la estructura Htable (tabla de hash).*/
+
 #ifndef HTABLE_H
 #define HTABLE_H
 

@@ -1,3 +1,5 @@
+/*Archivo con las restricciones establecidas para el programa.*/
+
 #ifndef SETTINGS_H
 #define SETTINGS_H
 

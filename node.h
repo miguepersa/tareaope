@@ -1,3 +1,5 @@
+/*Archivo con las definiciones de la estructura Node.*/
+
 #ifndef NODE_H
 #define NODE_H
 
